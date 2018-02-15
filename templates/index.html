@@ -1,4 +1,30 @@
 <html>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      var POLLLING_INVERVAL_TIME_IN_MILLIS = 5000;
+      (function polling() {
+        getPrice();
+        window.setTimeout(polling, POLLLING_INVERVAL_TIME_IN_MILLIS);
+      }());
+
+      function getPrice(){
+        var price = $("#price").text();
+        $.ajax({
+          type: "GET",
+          url: "/poll?price=" + price,
+          timeout: 5000,
+          content: "application/json",
+          dataType: "json"
+        }).done(function(data) {
+          if (price != data) {
+            $("#price").text(data);
+          }
+        }).fail(function(data) {
+        });
+      }
+    });
+  </script>
   <body>
      <h1>
          Welcome to Mactan's wonderworld!
@@ -17,7 +43,7 @@
           </p>
       </form>
       <p>
-         <span>You should pay {{ sport }} pesso</span>
+         <span>You should pay <span id="price">{{ sport }}</span> pesso</span>
       </p>
 
   </body>
