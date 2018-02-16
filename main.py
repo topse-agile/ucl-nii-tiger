@@ -14,7 +14,8 @@ def index(sport=0):
 @app.route('/price', methods=['GET','POST'])
 def price(sport=0):
     global g_price
-    sport = request.form['sports']
+    #sport = request.form['sports']
+    sport = 'Snorkelling'
     if sport != '':
         calculator = PrizeCalculating()
         calculator.setSport(sport)
